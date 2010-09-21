@@ -35,10 +35,14 @@ module FbRails
       cookie['uid']
     end
 
+    def access_token
+      cookie['access_token']
+    end
+
     def user
       if connected?
-        @user ||= User.find_or_create_by_fb_uid(uid)
-        @user.access_token = cookie['access_token']
+        @user ||= FbRails::Config.user_model.find_or_create_by_fb_uid(uid)
+        @user.access_token = access_token
         @user
       end
     end
