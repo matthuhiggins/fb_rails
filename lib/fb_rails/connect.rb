@@ -1,10 +1,18 @@
+require 'digest/md5'
+
 module FbRails
   class Connect
+    class << self
+      def cookie_name
+        "fbs_#{FbRails::Config.app_id}"
+      end
+    end
+
     extend ActiveSupport::Memoizable
 
     attr_reader :cookie_string
     def initialize(cookies)
-      @cookie_string = cookies[cookie_name]
+      @cookie_string = cookies[self.class.cookie_name]
     end
 
     def cookie
@@ -32,7 +40,7 @@ module FbRails
     end
 
     def uid
-      cookie['uid']
+      cookie['uid'].to_i
     end
 
     def access_token
@@ -45,10 +53,6 @@ module FbRails
         @user.access_token = access_token
         @user
       end
-    end
-
-    def cookie_name
-      "fbs_#{FbRails::Config.app_id}"
     end
   end
 end
