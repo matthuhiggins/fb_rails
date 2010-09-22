@@ -23,9 +23,7 @@ module FbRails
   
       payload = ''
       sorted_pairs.each do |key, value|
-        if key != 'sig'
-          payload += "#{key}=#{value}"
-        end
+        payload += "#{key}=#{value}" if key != 'sig'
       end
   
       md5 = Digest::MD5.hexdigest("#{payload}#{FbRails::Config.secret}")
@@ -49,9 +47,9 @@ module FbRails
 
     def user
       if connected?
-        @user ||= FbRails::Config.user_model.find_or_create_by_fb_uid(uid)
-        @user.access_token = access_token
-        @user
+        @user ||= FbRails::Config.user_model.find_or_create_by_fb_uid(uid).tap do |user|
+          user.fb_access_token = access_token
+        end
       end
     end
   end
