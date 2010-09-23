@@ -1,5 +1,7 @@
 module FbRails
   class Fb
+    delegate :app_id, :secret, :to => 'FbRails::Config'
+
     attr_reader :cookies
     def initialize(cookies)
       @cookies = cookies
@@ -11,14 +13,6 @@ module FbRails
 
     def graph
       nil
-    end
-
-    def app_id
-      FbRails::Config.app_id
-    end
-
-    def secret
-      FbRails::Config.secret
     end
   end
 end
