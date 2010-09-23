@@ -9,7 +9,6 @@ require 'sample/test_controller'
 
 FbRails::Config.app_id = 'foo'
 FbRails::Config.secret = 'bar'
-FbRails::Config.user_model = Sample::TestUser
 
 module ActiveSupport
   TestCase.class_eval do
