@@ -12,5 +12,13 @@ module FbRails
     def graph
       nil
     end
+
+    def app_id
+      FbRails::Config.app_id
+    end
+
+    def secret
+      FbRails::Config.secret
+    end
   end
 end
