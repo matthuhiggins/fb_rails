@@ -4,6 +4,7 @@ module FbRails
   autoload :Config
   autoload :Connect
   autoload :Graph
+  autoload :Fb
   autoload :Helpers
 end
 

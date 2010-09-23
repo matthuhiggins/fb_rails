@@ -4,12 +4,12 @@ module FbRails
       extend ActiveSupport::Concern
 
       included do
-        helper_method :fb_connect
+        helper_method :fb
       end
 
       private
-        def fb_connect
-          @fb_connect ||= ::FbRails::Connect.new(cookies)
+        def fb
+          @fb ||= ::FbRails::Fb.new(cookies)
         end
     end
   end

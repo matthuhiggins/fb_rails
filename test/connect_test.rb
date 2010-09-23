@@ -25,12 +25,4 @@ class FbRails::ConnectTest < ActiveSupport::TestCase
     assert_not_nil fb_connect.user
     assert_equal 42, fb_connect.user.fb_uid
   end
-
-  private
-    def fb_cookie(params)
-      param_string = params.map { |name, value| "#{name}=#{value}" }.join('&')
-      payload = params.sort.map { |name, value| "#{name}=#{value}" }.join
-      sig = Digest::MD5.hexdigest("#{payload}#{FbRails::Config.secret}")
-      {FbRails::Connect.cookie_name => "\"#{param_string}&sig=#{sig}\""}
-    end
 end
