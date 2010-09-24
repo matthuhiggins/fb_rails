@@ -10,13 +10,13 @@ module FbRails
 
     extend ActiveSupport::Memoizable
 
-    attr_reader :cookie_string
+    attr_reader :cookies
     def initialize(cookies)
-      @cookie_string = cookies[self.class.cookie_name]
+      @cookies = cookies
     end
 
     def cookie
-      return if cookie_string.blank?
+      return if (cookie_string = cookies[self.class.cookie_name]).blank?
 
       hash = Rack::Utils::parse_query(cookie_string.gsub(/^\"|\"$/, ''))
       sorted_pairs = hash.sort
@@ -47,10 +47,16 @@ module FbRails
 
     def user
       if connected?
-        @user ||= FbRails::Config.user_model.find_or_create_by_fb_uid(uid).tap do |user|
+        FbRails::Config.user_model.find_or_create_by_fb_uid(uid).tap do |user|
           user.fb_access_token = access_token
         end
       end
+    end
+    memoize :user
+
+    def logout!
+      cookies.delete self.class.cookie_name
+      flush_cache :cookie, :user
     end
   end
 end
