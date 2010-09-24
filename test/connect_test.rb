@@ -29,15 +29,4 @@ class FbRails::ConnectTest < ActiveSupport::TestCase
     assert_not_nil fb_connect.user
     assert_equal 42, fb_connect.user.fb_uid
   end
-
-  test 'logout' do
-    fb_connect = FbRails::Connect.new(fb_cookie 'uid' => 42)
-    assert fb_connect.connected?
-    assert fb_connect.user.present?
-
-    fb_connect.logout!
-
-    assert !fb_connect.connected?
-    assert fb_connect.user.blank?
-  end
 end

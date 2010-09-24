@@ -47,16 +47,11 @@ module FbRails
 
     def user
       if connected?
-        FbRails::Config.user_model.find_or_create_by_fb_uid(uid).tap do |user|
+        FbRails::Config.user_model.find_or_initialize_by_fb_uid(uid).tap do |user|
           user.fb_access_token = access_token
         end
       end
     end
     memoize :user
-
-    def logout!
-      cookies.delete self.class.cookie_name
-      flush_cache :cookie, :user
-    end
   end
 end

@@ -1,3 +1,7 @@
+require 'net/http'
+require 'net/https'
+require 'uri'
+
 module FbRails
   class Graph
     class << self
@@ -12,26 +16,27 @@ module FbRails
       @connect = connect
     end
 
-    # "https://graph.facebook.com/me?access_token=#{token}"
-    def request(verb, url, params = {})
-      url = "#{root_path}/me/friends?access_token=#{CGI.escape(access_token)}"
-      uri = URI.parse(url)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      request = Net::HTTP::Get.new(uri.request_uri)
-      response = http.request(request)
-
-      ActiveSupport::JSON.decode(response.body)
-    end
-
     def post(url, params = {})
-      request('POST', url, params)
+      request(Net::HTTP::Post, url, params)
     end
 
     def get(url, params = {})
-      request('GET', url, params)
+      request(Net::HTTP::Get, url, params)
     end
 
+    private
+      def request(http_verb, url, params = {})
+        params = params.merge(:access_token => connect.access_token)
+        param_string = params.map { |key, value| "#{key}=#{CGI.escape(value)}" }
+        url = "#{self.class.root_path}/#{url}?#{param_string}"
+        uri = URI.parse(url)
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        request = http_verb.new(uri.request_uri)
+        response = http.request(request)
+
+        ActiveSupport::JSON.decode(response.body)
+      end
   end
 end
