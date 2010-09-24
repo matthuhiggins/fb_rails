@@ -27,7 +27,7 @@ module FbRails
     private
       def request(http_verb, url, params = {})
         params = params.merge(:access_token => connect.access_token)
-        param_string = params.map { |key, value| "#{key}=#{CGI.escape(value)}" }
+        param_string = params.map { |key, value| "#{key}=#{CGI.escape(value)}" }.join('&')
         url = "#{self.class.root_path}/#{url}?#{param_string}"
         uri = URI.parse(url)
         http = Net::HTTP.new(uri.host, uri.port)
