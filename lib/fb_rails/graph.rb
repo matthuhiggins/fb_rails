@@ -30,13 +30,17 @@ module FbRails
         param_string = params.map { |key, value| "#{key}=#{CGI.escape(value)}" }.join('&')
         url = "#{self.class.root_path}/#{url}?#{param_string}"
         uri = URI.parse(url)
-        http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
         request = http_verb.new(uri.request_uri)
-        response = http.request(request)
+        response = http(uri).request(request)
 
         ActiveSupport::JSON.decode(response.body)
+      end
+
+      def http(uri)
+        Net::HTTP.new(uri.host, uri.port).tap do |result|
+          result.use_ssl = true
+          result.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        end
       end
   end
 end
