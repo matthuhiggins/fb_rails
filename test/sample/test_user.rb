@@ -5,7 +5,7 @@ module Sample
     end
 
     attr_accessor :fb_uid
-    def initialize(fb_uid)
+    def initialize(fb_uid = 42)
       @fb_uid = fb_uid
     end
   end

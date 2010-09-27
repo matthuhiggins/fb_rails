@@ -38,16 +38,16 @@ module FbRails
     end
 
     def uid
-      cookie['uid'].to_i
+      connected? ? cookie['uid'].to_i : nil
     end
 
     def access_token
-      cookie['access_token']
+      connected? ? cookie['access_token'] : nil
     end
 
     def user
       if connected?
-        FbRails::Config.user_model.find_or_initialize_by_fb_uid(uid).tap do |user|
+        FbRails::Config.user_class.find_or_initialize_by_fb_uid(uid).tap do |user|
           user.fb_access_token = access_token
         end
       end

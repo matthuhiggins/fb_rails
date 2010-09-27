@@ -2,7 +2,7 @@ require 'test_helper'
 
 class FbRails::ConnectTest < ActiveSupport::TestCase
   setup do
-    FbRails::Config.user_model = Sample::TestUser
+    FbRails::Config.user_class = Sample::TestUser
   end
 
   test 'empty cookie' do
@@ -10,6 +10,8 @@ class FbRails::ConnectTest < ActiveSupport::TestCase
 
     assert !fb_connect.connected?
     assert_nil fb_connect.user
+    assert_nil fb_connect.uid
+    assert_nil fb_connect.access_token
   end
 
   test 'invalid signature' do
