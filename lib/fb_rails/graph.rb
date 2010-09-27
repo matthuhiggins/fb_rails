@@ -5,9 +5,8 @@ require 'uri'
 module FbRails
   class Graph
     class << self
-      ROOT_PATH = 'https://graph.facebook.com'
-      def root_path
-        ROOT_PATH
+      def facebook_uri
+        @facebook_uri ||= URI.parse('https://graph.facebook.com')
       end
     end
 
@@ -17,27 +16,29 @@ module FbRails
     end
 
     def post(url, params = {})
-      request(Net::HTTP::Post, url, params)
+      request(:post, url, params)
     end
 
     def get(url, params = {})
-      request(Net::HTTP::Get, url, params)
+      request(:get, url, params)
     end
 
     private
       def request(http_verb, url, params = {})
-        params = params.merge(:access_token => connect.access_token)
-        param_string = params.map { |key, value| "#{key}=#{CGI.escape(value)}" }.join('&')
-        url = "#{self.class.root_path}/#{url}?#{param_string}"
-        uri = URI.parse(url)
-        request = http_verb.new(uri.request_uri)
-        response = http(uri).request(request)
-
+        path = build_path(url, params)
+        response = http.send(http_verb, path)
+      
         ActiveSupport::JSON.decode(response.body)
       end
 
-      def http(uri)
-        Net::HTTP.new(uri.host, uri.port).tap do |result|
+      def build_path(url, params)
+        params = params.merge(:access_token => connect.access_token)
+        param_string = params.map { |key, value| "#{key}=#{CGI.escape(value)}" }.join('&')
+        "#{url}?#{param_string}"
+      end
+
+      def http
+        Net::HTTP.new(self.class.facebook_uri.host, self.class.facebook_uri.port).tap do |result|
           result.use_ssl = true
           result.verify_mode = OpenSSL::SSL::VERIFY_NONE
         end
