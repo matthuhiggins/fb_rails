@@ -6,6 +6,7 @@ module FbRails
   autoload :Graph
   autoload :Fb
   autoload :Helpers
+  autoload :Mock
 end
 
 require 'fb_rails/railtie'
