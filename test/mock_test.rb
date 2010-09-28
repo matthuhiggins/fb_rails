@@ -3,7 +3,7 @@ require 'test_helper'
 class FbRails::MockTest < ActiveSupport::TestCase
   setup do
     FbRails::Mock.respond_to do |mock|
-      mock.add 'test', {'foo' => 'bar'}
+      mock.add 'test', 'foo' => 'bar'
     end
   end
 
