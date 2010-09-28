@@ -2,8 +2,8 @@ module FbRails
   class Mock
     class Response
       attr_reader :body
-      def initialize(body)
-        @body = body
+      def initialize(data)
+        @body = data.to_json
       end
     end
 
@@ -13,8 +13,8 @@ module FbRails
         @responses = responses
       end
 
-      def add(path, response)
-        responses[path] = response
+      def add(path, data)
+        responses[path] = Response.new(data)
       end
     end
 
@@ -30,11 +30,19 @@ module FbRails
       def reset!
         responses.clear
       end
+
+      def find_response(path)
+        path = path.gsub(/\?.*$/, '')
+        responses[path]
+      end
     end
 
-    def get(path)
-      p "path = #{path}"
-      Response.new({'hello' => 'world'}.to_json)
+    %w(get post).each do |method|
+      module_eval <<-EOE, __FILE__, __LINE__ + 1
+        def #{method}(path)
+          self.class.find_response(path)
+        end
+      EOE
     end
   end
 
