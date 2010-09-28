@@ -7,12 +7,11 @@ class FbRails::MockTest < ActiveSupport::TestCase
     end
   end
 
-  test 'weee' do
-    graph = FbRails::Graph.new(FbRails::Connect.new(fb_cookie('uid' => 42, 'access_token' => 'abc')))
+  test 'mock' do
+    graph = FbRails::Graph.new(FbRails::Connect.new(fb_cookie))
 
     result = graph.get 'test'
 
     assert_equal({'foo' => 'bar'}, result)
   end
-  
 end
