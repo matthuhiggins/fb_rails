@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class FbRails::ConnectTest < ActiveSupport::TestCase
-  setup do
-    FbRails::Config.user_class = Sample::TestUser
-  end
-
   test 'empty cookie' do
     fb_connect = FbRails::Connect.new({})
 

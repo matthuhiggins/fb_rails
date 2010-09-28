@@ -9,13 +9,14 @@ module FbRails
       end
 
       def user_class
-        @@user_class_klass ||= begin
-          klass = (@@user_class || DEFAULT_USER_MODEL).to_s.classify.constantize
-          klass.class_eval do
-            attr_accessor :fb_access_token
-          end
-          klass
-        end
+        User
+        # @@user_class_klass ||= begin
+        #   klass = (@@user_class || DEFAULT_USER_MODEL).to_s.classify.constantize
+        #   klass.class_eval do
+        #     attr_accessor :fb_access_token
+        #   end
+        #   klass
+        # end
       end
     end
   end

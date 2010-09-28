@@ -4,7 +4,7 @@ require 'rails/all'
 
 require 'fb_rails'
 
-require 'sample/test_user'
+require 'sample/user'
 require 'sample/test_controller'
 
 FbRails::Config.app_id = 'foo'
