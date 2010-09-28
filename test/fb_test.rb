@@ -9,7 +9,7 @@ class FbRails::FbTest < ActiveSupport::TestCase
   end
 
   test 'connect delegation' do
-    fb = FbRails::Fb.new(fb_cookie)
+    fb = FbRails::Fb.new(FbRails.cookie)
 
     assert fb.respond_to?(:connected?)
     assert fb.respond_to?(:uid)

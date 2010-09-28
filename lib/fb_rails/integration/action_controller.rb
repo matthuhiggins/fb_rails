@@ -1,5 +1,5 @@
 module FbRails
-  module Helpers
+  module Integration
     module ActionController
       extend ActiveSupport::Concern
 

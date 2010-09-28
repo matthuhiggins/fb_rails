@@ -1,9 +1,7 @@
 module FbRails
-  module Helpers
+  module Integration
     extend ActiveSupport::Autoload
 
     autoload :ActionController
-    autoload :ActionView
-    autoload :ActiveRecord
   end
 end

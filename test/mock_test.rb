@@ -8,7 +8,7 @@ class FbRails::MockTest < ActiveSupport::TestCase
   end
 
   test 'mock' do
-    graph = FbRails::Graph.new(FbRails::Connect.new(fb_cookie))
+    graph = FbRails::Graph.new(FbRails::Connect.new(FbRails.cookie))
 
     result = graph.get 'test'
 
