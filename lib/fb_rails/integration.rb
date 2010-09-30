@@ -3,5 +3,6 @@ module FbRails
     extend ActiveSupport::Autoload
 
     autoload :ActionController
+    autoload :ActionView
   end
 end
