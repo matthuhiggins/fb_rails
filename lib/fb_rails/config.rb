@@ -1,22 +1,10 @@
 module FbRails
   class Config
-    class_attribute :app_id, :secret
-    DEFAULT_USER_MODEL = :User
+    class_attribute :app_id, :secret, :user_class_name
 
     class << self
-      def user_class=(model)
-        @@user_class = model
-      end
-
       def user_class
-        User
-        # @@user_class_klass ||= begin
-        #   klass = (@@user_class || DEFAULT_USER_MODEL).to_s.classify.constantize
-        #   klass.class_eval do
-        #     attr_accessor :fb_access_token
-        #   end
-        #   klass
-        # end
+        (user_class_name || 'User').constantize
       end
     end
   end
