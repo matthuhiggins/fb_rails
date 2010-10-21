@@ -53,3 +53,4 @@ module FbRails
     memoize :user
   end
 end
+  

@@ -1,6 +1,7 @@
 require 'net/http'
 require 'net/https'
 require 'uri'
+require 'fb_rails/log_subscriber'
 
 module FbRails
   class Graph
@@ -26,7 +27,12 @@ module FbRails
     private
       def request(http_verb, url, params = {})
         path = build_path(url, params)
-        response = http.send(http_verb, path)
+
+        response = ActiveSupport::Notifications.instrument('request.fb_rails') do |payload|
+          payload[:http_verb]   = http_verb
+          payload[:request_uri] = path
+          http.send(http_verb, path)
+        end
       
         ActiveSupport::JSON.decode(response.body)
       end
@@ -34,7 +40,7 @@ module FbRails
       def build_path(url, params)
         params = params.merge(:access_token => connect.access_token)
         param_string = params.map { |key, value| "#{key}=#{CGI.escape(value)}" }.join('&')
-        "#{url}?#{param_string}"
+        url = "#{url}?#{param_string}"
       end
 
       def http
