@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
 
   s.author            = 'Matthew Higgins'
   s.email             = 'developer@matthewhiggins.com'
-  s.homepage          = 'http://gotime.com'
+  s.homepage          = 'http://github.com/matthuhiggins/fb_rails'
 
   s.extra_rdoc_files = ['README.rdoc']
   s.files = %w(MIT-LICENSE Rakefile README.rdoc) + Dir['lib/**/*.rb'] + Dir['test/**/*.rb']
