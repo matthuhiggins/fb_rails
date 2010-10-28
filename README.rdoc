@@ -1,0 +1,70 @@
+= FbRails
+
+FbRails makes it easy to integrate your website with Facebook.
+
+
+== Setting up
+
+Add the following to your configuration. This can go in config/application.rb, or
+customized in each environment in config/environments/[name].rb:
+
+  config.facebook = {
+    :app_id     => 'my_app_id',
+    :secret     => 'my_app_secret'
+  }
+
+or
+
+  config.facebook.app_id = 'my_app_id'
+  config.facebook.secret = 'my_app_secret'
+
+
+== API
+
+FbRails adds an object called 'fb', which is available to all controllers and views:
+
+Determine if the current user is connected through Facebook:
+
+  fb.connected?
+
+Get the Facebook user id for the current user:
+
+  fb.uid
+
+Make a request to the Facebook Graph:
+
+  <% result = fb.graph.get '/me' %>
+  my name is <%= result['first_name'] %>
+
+
+== Persisting the Facebook User:
+
+Websites that interact with Facebook usually have a user model in a local database.
+This user is accessed with 'fb.user':
+
+  The current user is <%= fb.user.inspect %>
+
+For this to work, FbRails assumes there is a model called 'User' with a column 'fb_uid'.
+If your user model name is different than 'User', it can be configured:
+  config.facebook.user_class_name = 'Author'
+
+If the fb_uid for the current user is not in the database, fb.user is an unsaved instance.
+One thing I like to do for new Facebook users is store them in a before filter:
+
+  if fb.connected? && fb.user.new_record?
+    data = fb.graph.get('me')
+    fb.user.first_name = data['first_name']
+    fb.user.last_name = data['last_name']
+    fb.user.save
+  end
+
+
+== Testing
+
+Facebook requests can be mocked, so that your requests do not require real HTTP
+connections. This is done with FbRails::Mock:
+
+  FbRails::Mock.respond_to do |mock|
+    mock.add 'me', 'first_name' => 'Matt', 'last_name' => 'Higgins'
+  end
+
