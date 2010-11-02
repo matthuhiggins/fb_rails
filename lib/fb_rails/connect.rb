@@ -24,8 +24,9 @@ module FbRails
       end
 
       def create_oauth2_cookie(attributes, secret)
-        param_string = attributes.map { |key, value| "#{key}=#{value}" }.join('&')
-        payload = attributes.sort.map { |key, value| "#{key}=#{value}" }.join('')
+        sorted_pairs = attributes.sort.map { |key, value| "#{key}=#{value}" }
+        param_string = sorted_pairs.join('&')
+        payload = sorted_pairs.join('')
         sig = Digest::MD5.hexdigest("#{payload}#{FbRails::Config.secret}")
         "\"#{param_string}&sig=#{sig}\""
       end
