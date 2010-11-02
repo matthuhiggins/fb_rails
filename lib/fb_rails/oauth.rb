@@ -5,8 +5,9 @@ module FbRails
     class << self
       def parse_cookie(cookie_string, secret)
         return if cookie_string.blank?
+        cookie_string = Rack::Utils.unescape(cookie_string)
 
-        hash = Rack::Utils::parse_query(cookie_string.gsub(/^\"|\"$/, ''))
+        hash = Rack::Utils.parse_query(cookie_string.gsub(/^\"|\"$/, ''))
 
         payload = ''
         hash.sort.each do |key, value|
