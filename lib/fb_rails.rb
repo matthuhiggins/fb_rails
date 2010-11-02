@@ -9,10 +9,8 @@ module FbRails
   autoload :Integration
 
   def self.cookie(uid = 42, access_token = 'abc')
-    param_string = "uid=#{uid}&access_token=#{access_token}"
-    payload = "access_token=#{access_token}uid=#{uid}"
-    sig = Digest::MD5.hexdigest("#{payload}#{FbRails::Config.secret}")
-    {FbRails::Connect.cookie_name => "\"#{param_string}&sig=#{sig}\""}
+    value = FbRails::Connect.create_oauth2_cookie({:uid => uid, :access_token => access_token}, FbRails::Config.secret)
+    {FbRails::Connect.cookie_name => value}
   end
 end
 

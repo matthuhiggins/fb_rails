@@ -22,6 +22,13 @@ module FbRails
           hash
         end
       end
+
+      def create_oauth2_cookie(attributes, secret)
+        param_string = attributes.map { |key, value| "#{key}=#{value}" }.join('&')
+        payload = attributes.sort.map { |key, value| "#{key}=#{value}" }.join('')
+        sig = Digest::MD5.hexdigest("#{payload}#{FbRails::Config.secret}")
+        "\"#{param_string}&sig=#{sig}\""
+      end
     end
 
     extend ActiveSupport::Memoizable
