@@ -1,34 +1,8 @@
-require 'digest/md5'
-
 module FbRails
   class Connect
     class << self
       def cookie_name
         "fbs_#{FbRails::Config.app_id}"
-      end
-
-      def parse_oauth2_cookie(cookie_string, secret)
-        return if cookie_string.blank?
-
-        hash = Rack::Utils::parse_query(cookie_string.gsub(/^\"|\"$/, ''))
-
-        payload = ''
-        hash.sort.each do |key, value|
-          payload += "#{key}=#{value}" if key != 'sig'
-        end
-
-        md5 = Digest::MD5.hexdigest("#{payload}#{secret}")
-        if md5 == hash['sig']
-          hash
-        end
-      end
-
-      def create_oauth2_cookie(attributes, secret)
-        sorted_pairs = attributes.sort.map { |key, value| "#{key}=#{value}" }
-        param_string = sorted_pairs.join('&')
-        payload = sorted_pairs.join('')
-        sig = Digest::MD5.hexdigest("#{payload}#{FbRails::Config.secret}")
-        "\"#{param_string}&sig=#{sig}\""
       end
     end
 
@@ -40,7 +14,7 @@ module FbRails
     end
 
     def cookie
-      self.class.parse_oauth2_cookie(cookies[self.class.cookie_name], FbRails::Config.secret)
+      FbRails::Oauth.parse_cookie(cookies[self.class.cookie_name], FbRails::Config.secret)
     end
     memoize :cookie
 
