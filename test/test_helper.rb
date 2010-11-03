@@ -12,7 +12,7 @@ FbRails::Config.secret = 'bar'
 
 FbRails.class_eval do
   def self.cookie(uid = 42, access_token = 'abc')
-    value = FbRails::Oauth.create_cookie({:uid => uid, :access_token => access_token}, FbRails::Config.secret)
+    value = FbRails::Cookie.encode({:uid => uid, :access_token => access_token}, FbRails::Config.secret)
     {FbRails::Connect.cookie_name => value}
   end
 end

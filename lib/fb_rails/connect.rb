@@ -14,7 +14,7 @@ module FbRails
     end
 
     def cookie
-      FbRails::Oauth.parse_cookie(cookies[self.class.cookie_name], FbRails::Config.secret)
+      FbRails::Cookie.decode(cookies[self.class.cookie_name], FbRails::Config.secret)
     end
     memoize :cookie
 

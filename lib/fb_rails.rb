@@ -2,7 +2,7 @@ module FbRails
   extend ActiveSupport::Autoload
 
   autoload :Config
-  autoload :Oauth
+  autoload :Cookie
   autoload :Connect
   autoload :Graph
   autoload :Fb

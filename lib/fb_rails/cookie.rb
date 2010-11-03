@@ -1,9 +1,9 @@
 require 'digest/md5'
 
 module FbRails
-  class Oauth
+  class Cookie
     class << self
-      def parse_cookie(cookie_string, secret)
+      def decode(cookie_string, secret)
         return if cookie_string.blank?
         cookie_string = Rack::Utils.unescape(cookie_string)
 
@@ -20,7 +20,7 @@ module FbRails
         end
       end
 
-      def create_cookie(attributes, secret)
+      def encode(attributes, secret)
         sorted_pairs = attributes.sort.map { |key, value| "#{key}=#{value}" }
         param_string = sorted_pairs.join('&')
         payload = sorted_pairs.join('')
