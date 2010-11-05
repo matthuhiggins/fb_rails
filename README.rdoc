@@ -18,6 +18,16 @@ or
   config.facebook.app_id = 'my_app_id'
   config.facebook.secret = 'my_app_secret'
 
+Getting the user logged in is out of the scope of this gem. That's what
+FBML and the Facebook Javascript API are for. Here's an example:
+
+  <div id="fb-root"></div>
+  <script src="http://connect.facebook.net/en_US/all.js"></script>
+  <script>
+    FB.init({appId: '<%= fb.app_id ?>', status: true, cookie: true, xfbml: true});
+  </script>
+  <%= fbml 'login-button' %>
+
 
 == API
 
@@ -36,6 +46,10 @@ Make a request to the Facebook Graph:
   <% result = fb.graph.get '/me' %>
   my name is <%= result['first_name'] %>
 
+Retrieve your Facebook application app_id or secret:
+  fb.app_id
+  fb.secret
+
 
 == Persisting the Facebook User:
 
@@ -46,6 +60,7 @@ This user is accessed with 'fb.user':
 
 For this to work, FbRails assumes there is a model called 'User' with a column 'fb_uid'.
 If your user model name is different than 'User', it can be configured:
+
   config.facebook.user_class_name = 'Author'
 
 If the fb_uid for the current user is not in the database, fb.user is an unsaved instance.
@@ -68,3 +83,4 @@ connections. This is done with FbRails::Mock:
     mock.add 'me', 'first_name' => 'Matt', 'last_name' => 'Higgins'
   end
 
+  Now, a call to 'fb.graph.get 'me' returns the above response.
