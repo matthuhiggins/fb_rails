@@ -24,7 +24,7 @@ FBML and the Facebook Javascript API are for. Here's an example:
   <div id="fb-root"></div>
   <script src="http://connect.facebook.net/en_US/all.js"></script>
   <script>
-    FB.init({appId: '<%= fb.app_id ?>', status: true, cookie: true, xfbml: true});
+    FB.init({appId: '<%= fb.app_id %>', status: true, cookie: true, xfbml: true});
   </script>
   <%= fbml 'login-button' %>
 
@@ -83,4 +83,4 @@ connections. This is done with FbRails::Mock:
     mock.add 'me', 'first_name' => 'Matt', 'last_name' => 'Higgins'
   end
 
-  Now, a call to 'fb.graph.get 'me' returns the above response.
+Now, a call to 'fb.graph.get 'me' returns the above response.
