@@ -39,7 +39,7 @@ module FbRails
 
       def build_path(url, params)
         params = params.merge(:access_token => connect.access_token)
-        param_string = params.map { |key, value| "#{key}=#{CGI.escape(value)}" }.join('&')
+        param_string = params.map { |key, value| "#{key}=#{Rack::Utils.escape(value)}" }.join('&')
         url = "#{url}?#{param_string}"
       end
 
