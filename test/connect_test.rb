@@ -19,7 +19,7 @@ class FbRails::ConnectTest < ActiveSupport::TestCase
   end
 
   test 'valid cookie' do
-    fb_connect = FbRails::Connect.new(FbRails.cookie)
+    fb_connect = FbRails::Connect.new(fb_cookie)
 
     assert fb_connect.connected?
     assert_equal 42, fb_connect.uid

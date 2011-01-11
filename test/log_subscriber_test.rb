@@ -17,7 +17,7 @@ class FbRails::LogSubscriberTest < ActiveSupport::TestCase
   end
 
   test 'request notification' do
-    graph = FbRails::Graph.new(FbRails::Connect.new(FbRails.cookie))
+    graph = FbRails::Graph.new(FbRails::Connect.new(fb_cookie))
     graph.get 'test'
 
     wait

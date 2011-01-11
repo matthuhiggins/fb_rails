@@ -8,6 +8,7 @@ module FbRails
   autoload :Fb
   autoload :Mock
   autoload :Integration
+  autoload :TestHelper
 end
 
 require 'fb_rails/railtie'
