@@ -2,7 +2,7 @@
  
 Gem::Specification.new do |s|
   s.name = 'fb_rails'
-  s.version = '0.3.0'
+  s.version = '0.4.0'
   s.summary = 'Facebook on Rails'
   s.description = 'A Rails 3 gem for the latest facebook API'
 
@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.homepage          = 'http://github.com/matthuhiggins/fb_rails'
 
   s.extra_rdoc_files = ['README.rdoc']
-  s.files = %w(MIT-LICENSE Rakefile README.rdoc) + Dir['lib/**/*.rb'] + Dir['test/**/*.rb']
+  s.files = %w(MIT-LICENSE Rakefile README.rdoc) + Dir['{lib,test}/**/*.rb']
   s.require_path = 'lib'
   s.add_development_dependency('rails', '>= 3.0.0')
 end
