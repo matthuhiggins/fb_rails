@@ -5,22 +5,22 @@ require 'fb_rails/log_subscriber'
 class FbRails::LogSubscriberTest < ActiveSupport::TestCase
   include ActiveSupport::LogSubscriber::TestHelper
 
-  setup do
+  def setup
+    super
+
     FbRails::Mock.respond_to do |mock|
       mock.add 'test', 'foo' => 'bar'
     end
+
+    FbRails::LogSubscriber.attach_to :fb_rails
   end
   
-  def set_logger(logger)
-    # raise 'set logger'
-    Rails.logger = logger
-  end
-
   test 'request notification' do
     graph = FbRails::Graph.new(FbRails::Connect.new(fb_cookie))
     graph.get 'test'
 
     wait
     assert_equal 1, @logger.logged(:info).size
+    assert_match /FbRails \(\d+.\d+ms\) GET test/, @logger.logged(:info).first
   end
 end
