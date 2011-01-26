@@ -47,9 +47,8 @@ module FbRails
   end
 
   class Graph
-    private
-      def http
-        @http ||= Mock.new
-      end
+    def self.http
+      @http ||= Mock.new
+    end
   end
 end
