@@ -32,7 +32,7 @@ module FbRails
       end
 
       def find_response(path)
-        path = path.gsub(/\?.*$/, '')
+        path = path.gsub(/\?.*$/, '').gsub(/^\//, '')
         responses[path]
       end
     end

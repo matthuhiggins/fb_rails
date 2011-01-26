@@ -11,7 +11,7 @@ module FbRails
       end
 
       def http
-        Net::HTTP.new(self.class.facebook_uri.host, self.class.facebook_uri.port).tap do |result|
+        Net::HTTP.new(facebook_uri.host, facebook_uri.port).tap do |result|
           result.use_ssl = true
           result.verify_mode = OpenSSL::SSL::VERIFY_NONE
         end
