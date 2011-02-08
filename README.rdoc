@@ -41,14 +41,20 @@ Get the Facebook user id for the current user:
 
   fb.uid
 
-Make a request to the Facebook Graph:
-
-  <% result = fb.graph.get '/me' %>
-  my name is <%= result['first_name'] %>
-
 Retrieve your Facebook application app_id or secret:
   fb.app_id
   fb.secret
+
+
+== Using the Graph
+
+Make a request to the Facebook Graph:
+
+  <% result = fb.graph.get 'me' %>
+  my name is <%= result['first_name'] %>
+
+Post to the user's wall:
+  fb.graph.post 'me/feed', :message => 'I like turtles'
 
 
 == Persisting the Facebook User:
@@ -76,11 +82,11 @@ One thing I like to do for new Facebook users is store them in a before filter:
 
 == Testing
 
-Facebook requests can be mocked, so that your requests do not require real HTTP
+Facebook requests can be mocked, so that your tests do not require real HTTP
 connections. This is done with FbRails::Mock:
 
   FbRails::Mock.respond_to do |mock|
     mock.add 'me', 'first_name' => 'Matt', 'last_name' => 'Higgins'
   end
 
-Now, a call to 'fb.graph.get 'me' returns the above response.
+Now, a call to fb.graph.get('me') returns the above response.

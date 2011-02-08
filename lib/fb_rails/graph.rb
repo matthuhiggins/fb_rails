@@ -17,21 +17,26 @@ module FbRails
         end
       end
 
-      def request(http_verb, path, params = {})
-        url = build_url(path, params)
+      def get(path, params)
+        request(:get, "#{path}?#{build_param_string(params)}")
+      end
 
+      def post(path, params)
+        request(:post, path, build_param_string(params))
+      end
+
+      def request(http_verb, path, *arguments)
         response = ActiveSupport::Notifications.instrument('request.fb_rails') do |payload|
           payload[:http_verb]   = http_verb
-          payload[:request_uri] = url
-          http.send(http_verb, url)
+          payload[:request_uri] = path
+          http.send(http_verb, path, *arguments)
         end
 
         ActiveSupport::JSON.decode(response.body)
       end
 
-      def build_url(path, params)
-        param_string = params.map { |key, value| "#{key}=#{Rack::Utils.escape(value)}" }.join('&')
-        "#{path}?#{param_string}"
+      def build_param_string(params)
+        params.map { |key, value| "#{key}=#{Rack::Utils.escape(value)}" }.join('&')
       end
     end
 
@@ -41,16 +46,11 @@ module FbRails
     end
 
     def post(path, params = {})
-      request(:post, path, params)
+      self.class.post(path, params.merge(:access_token => connect.access_token))
     end
 
     def get(path, params = {})
-      request(:get, path, params)
+      self.class.get(path, params.merge(:access_token => connect.access_token))
     end
-
-    private
-      def request(http_verb, path, params)
-        self.class.request(http_verb, path, params.merge(:access_token => connect.access_token))
-      end
   end
 end
