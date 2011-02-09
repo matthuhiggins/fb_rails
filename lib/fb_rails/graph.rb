@@ -7,10 +7,7 @@ module FbRails
   class Graph
     class << self
       def facebook_uri
-        @facebook_uri ||= begin
-          protocol = FbRails::Config.use_ssl ? 'https': 'http'
-          URI.parse("#{protocol}://graph.facebook.com")
-        end
+        @facebook_uri ||= URI.parse("https://graph.facebook.com")
       end
 
       def get(path, params = {})
@@ -34,7 +31,7 @@ module FbRails
 
         def http
           result = Net::HTTP.new(facebook_uri.host, facebook_uri.port)
-          configure_https(result) if facebook_uri.is_a?(URI::HTTPS)
+          configure_https(result)
           result
         end
 
