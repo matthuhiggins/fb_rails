@@ -9,7 +9,7 @@ module FbRails
     end
 
     def graph
-      @graph ||= FbRails::Graph.new(connect)
+      @graph ||= FbRails::Graph.new(connect.access_token)
     end
 
     private
