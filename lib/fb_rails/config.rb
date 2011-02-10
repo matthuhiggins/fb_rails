@@ -4,7 +4,15 @@ module FbRails
 
     class << self
       def user_class
-        (user_class_name || 'User').constantize
+        @user_class ||= begin
+          klass = (user_class_name || 'User').constantize
+
+          klass.class_eval do
+            attr_accessor :access_token
+          end unless klass.method_defined?(:access_token)
+
+          klass
+        end
       end
     end
   end

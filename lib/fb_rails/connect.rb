@@ -32,7 +32,9 @@ module FbRails
 
     def user
       if connected?
-        FbRails::Config.user_class.find_or_initialize_by_fb_uid(uid)
+        record = FbRails::Config.user_class.find_or_initialize_by_fb_uid(uid)
+        record.access_token = access_token
+        record
       end
     end
     memoize :user
