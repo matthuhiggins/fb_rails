@@ -39,7 +39,7 @@ module FbRails
 
     %w(get post).each do |method|
       module_eval <<-EOE, __FILE__, __LINE__ + 1
-        def #{method}(path)
+        def #{method}(path, *args)
           self.class.find_response(path)
         end
       EOE

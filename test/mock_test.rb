@@ -8,10 +8,7 @@ class FbRails::MockTest < ActiveSupport::TestCase
   end
 
   test 'mock' do
-    graph = FbRails::Graph.new('my_access_token')
-
-    result = graph.get 'test'
-
-    assert_equal({'foo' => 'bar'}, result)
+    assert_equal({'foo' => 'bar'},  FbRails::Graph.get('test'))
+    assert_equal({'foo' => 'bar'},  FbRails::Graph.post('test', 'foo' => 'bar'))
   end
 end
