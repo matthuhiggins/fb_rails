@@ -11,11 +11,11 @@ module FbRails
       end
 
       def get(path, params = {})
-        request(:get, "#{path}?#{build_param_string(params)}")
+        request(:get, "#{path}?#{params.to_param}")
       end
 
       def post(path, params = {})
-        request(:post, path, build_param_string(params))
+        request(:post, path, params.to_param)
       end
 
       private
@@ -33,10 +33,6 @@ module FbRails
           result = Net::HTTP.new(facebook_uri.host, facebook_uri.port)
           configure_https(result)
           result
-        end
-
-        def build_param_string(params)
-          params.map { |key, value| "#{key}=#{Rack::Utils.escape(value)}" }.join('&')
         end
 
         def configure_https(http)
