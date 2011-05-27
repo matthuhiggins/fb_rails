@@ -11,4 +11,4 @@ module FbRails
   autoload :TestHelper
 end
 
-require 'fb_rails/railtie'
+require 'fb_rails/engine'

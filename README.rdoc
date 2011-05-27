@@ -21,11 +21,7 @@ or
 Getting the user logged in is out of the scope of this gem. That's what
 FBML and the Facebook Javascript API are for. Here's an example:
 
-  <div id="fb-root"></div>
-  <script src="http://connect.facebook.net/en_US/all.js"></script>
-  <script>
-    FB.init({appId: '<%= fb.app_id %>', status: true, cookie: true, xfbml: true});
-  </script>
+  <%= include_facebook_javascript %>
   <%= fbml 'login-button' %>
 
 

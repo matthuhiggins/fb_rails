@@ -4,6 +4,16 @@ class FbRails::Integration::ActionViewTest < ActiveSupport::TestCase
   include ActionView::Helpers::TagHelper
   include FbRails::Integration::ActionView
 
+  test 'async include_facebook_javascript' do
+    expects(:render).with('fb/async_js')
+    include_facebook_javascript async: true
+  end
+  
+  test 'blocking include_facebook_javascript' do
+    expects(:render).with('fb/blocking_js')
+    include_facebook_javascript
+  end
+
   test 'fbml' do
     assert_equal '<fb:foo></fb:foo>', fbml('foo')
     assert_equal '<fb:foo>bar</fb:foo>', fbml('foo', 'bar')

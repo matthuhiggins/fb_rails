@@ -1,5 +1,5 @@
 module FbRails
-  class Railtie < Rails::Railtie
+  class Railtie < Rails::Engine
     config.facebook = ActiveSupport::OrderedOptions.new
 
     initializer "fb_rails.set_configs" do |app|
