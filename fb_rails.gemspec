@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.summary = 'Facebook on Rails'
   s.description = 'A Rails 3 gem for the latest facebook API'
 
-  s.required_ruby_version     = '>= 1.8.7'
+  s.required_ruby_version     = '>= 1.9.2'
   s.required_rubygems_version = '>= 1.3.5'
 
   s.author            = 'Matthew Higgins'

@@ -15,7 +15,7 @@ class FbRails::CookieTest < ActiveSupport::TestCase
   test 'encode' do
     assert_equal(
       "\"a=1&b=2&sig=25a7f94742b4134695b80f78d4804e35\"",
-      FbRails::Cookie.encode({:a => 1, :b => 2}, 'sekrit')
+      FbRails::Cookie.encode({a: 1, b: 2}, 'sekrit')
     )
   end
 end

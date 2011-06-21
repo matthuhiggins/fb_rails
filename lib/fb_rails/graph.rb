@@ -47,11 +47,11 @@ module FbRails
     end
 
     def post(path, params = {})
-      self.class.post(path, params.merge(:access_token => access_token))
+      self.class.post(path, params.merge(access_token: access_token))
     end
 
     def get(path, params = {})
-      self.class.get(path, params.merge(:access_token => access_token))
+      self.class.get(path, params.merge(access_token: access_token))
     end
   end
 end
