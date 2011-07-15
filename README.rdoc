@@ -18,8 +18,7 @@ or
   config.facebook.app_id = 'my_app_id'
   config.facebook.secret = 'my_app_secret'
 
-Getting the user logged in is out of the scope of this gem. That's what
-FBML and the Facebook Javascript API are for. Here's an example:
+Include facebook Javascript and a login button:
 
   <%= include_facebook_javascript %>
   <%= fbml 'login-button' %>
