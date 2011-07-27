@@ -14,7 +14,7 @@ class FbRails::LogSubscriberTest < ActiveSupport::TestCase
 
     FbRails::LogSubscriber.attach_to :fb_rails
   end
-  
+
   test 'request notification' do
     graph = FbRails::Graph.new('my_access_token')
     graph.get 'test'
