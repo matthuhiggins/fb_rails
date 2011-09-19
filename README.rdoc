@@ -81,6 +81,22 @@ One thing I like to do for new Facebook users is store them in a before filter:
   end
 
 
+== Timeouts
+
+Calls to the Graph API can timeout. If this occurs, an FbRails::TimeoutError occurs.
+Your application can rescue from these:
+
+  begin
+    fb.get 'me'
+  rescue FbRails::TimeoutError => e
+    ...
+  end
+
+The timeout defaults to 60 seconds. This can be configured:
+
+  config.timeout = 10
+
+
 == Testing
 
 Facebook requests can be mocked, so that your tests do not require real HTTP

@@ -4,6 +4,13 @@ require 'uri'
 require 'fb_rails/log_subscriber'
 
 module FbRails
+  class TimeoutError < StandardError
+    def initialize(message)
+      @message = message
+    end
+    def to_s; @message ;end
+  end
+
   class Graph
     class << self
       def facebook_uri
@@ -11,27 +18,33 @@ module FbRails
       end
 
       def get(path, params = {})
-        request(:get, "#{path}?#{params.to_param}")
+        json_request(:get, "#{path}?#{params.to_param}")
       end
 
       def post(path, params = {})
-        request(:post, path, params.to_param)
+        json_request(:post, path, params.to_param)
       end
 
       private
         def request(http_verb, path, *arguments)
-          response = ActiveSupport::Notifications.instrument('request.fb_rails') do |payload|
+          ActiveSupport::Notifications.instrument('request.fb_rails') do |payload|
             payload[:http_verb]   = http_verb
             payload[:request_uri] = path
             http.send(http_verb, path, *arguments)
           end
+        rescue Timeout::Error => e
+          raise TimeoutError.new(e.message)
+        end
 
+        def json_request(http_verb, path, *arguments)
+          response = request(http_verb, path, *arguments)
           ActiveSupport::JSON.decode(response.body)
         end
 
         def http
           result = Net::HTTP.new(facebook_uri.host, facebook_uri.port)
           configure_https(result)
+          result.timeout = FbRails::Config.timeout
           result
         end
 
