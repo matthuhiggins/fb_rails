@@ -1,7 +1,8 @@
 require 'rubygems'
+require 'bundler/setup'
+
 require 'test/unit'
 require 'rails/all'
-
 require 'fb_rails'
 
 require 'sample/user'
