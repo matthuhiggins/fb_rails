@@ -2,7 +2,7 @@
  
 Gem::Specification.new do |s|
   s.name = 'fb_rails'
-  s.version = '1.1.1'
+  s.version = '1.1.2'
   s.summary = 'Facebook on Rails'
   s.description = 'A Rails 3 gem for the latest facebook API'
 
