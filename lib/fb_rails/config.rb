@@ -1,7 +1,6 @@
 module FbRails
   class Config
     class_attribute :app_id, :secret, :user_class_name, :timeout
-    self.timeout = 60
 
     class << self
       def user_class

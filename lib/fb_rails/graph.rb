@@ -44,13 +44,20 @@ module FbRails
         def http
           result = Net::HTTP.new(facebook_uri.host, facebook_uri.port)
           configure_https(result)
-          result.timeout = FbRails::Config.timeout
+          configure_timeout(result)
           result
         end
 
         def configure_https(http)
           http.use_ssl = true
           http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        end
+
+        def configure_timeout(http)
+          if FbRails::Config.timeout
+            http.open_timeout = FbRails::Config.timeout
+            http.read_timeout = FbRails::Config.timeout
+          end
         end
     end
 
