@@ -11,4 +11,5 @@ module FbRails
   autoload :TestHelper
 end
 
+require 'fb_rails/errors'
 require 'fb_rails/engine'

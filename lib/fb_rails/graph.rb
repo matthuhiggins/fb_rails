@@ -4,13 +4,6 @@ require 'uri'
 require 'fb_rails/log_subscriber'
 
 module FbRails
-  class TimeoutError < StandardError
-    def initialize(message)
-      @message = message
-    end
-    def to_s; @message ;end
-  end
-
   class Graph
     class << self
       def facebook_uri
