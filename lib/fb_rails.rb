@@ -1,3 +1,5 @@
+require 'rails/all'
+
 module FbRails
   extend ActiveSupport::Autoload
 

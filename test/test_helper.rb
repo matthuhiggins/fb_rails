@@ -1,10 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
-
+Bundler.require(:default, :test)
 require 'test/unit'
-require 'rails/all'
-require 'fb_rails'
-require 'mocha'
 
 require 'sample/user'
 require 'sample/test_controller'
