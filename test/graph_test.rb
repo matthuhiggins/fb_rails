@@ -14,4 +14,13 @@ class FbRails::GraphTest < ActiveSupport::TestCase
       FbRails::Graph.get 'foo'
     end
   end
+
+  test 'rescue response error' do
+    http = stub(get: stub(body: "false"))
+    FbRails::Graph.expects(:http).returns(http)
+
+    assert_raise FbRails::ResponseError do
+      FbRails::Graph.get 'foo'
+    end
+  end
 end

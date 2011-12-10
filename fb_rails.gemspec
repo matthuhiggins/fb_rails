@@ -2,7 +2,7 @@
  
 Gem::Specification.new do |s|
   s.name = 'fb_rails'
-  s.version = '1.1.2'
+  s.version = '1.2.0'
   s.summary = 'Facebook on Rails'
   s.description = 'A Rails 3 gem for the latest facebook API'
 
@@ -17,4 +17,5 @@ Gem::Specification.new do |s|
   s.files = %w(MIT-LICENSE Rakefile README.rdoc) + Dir['{lib,test}/**/*.rb']
   s.require_path = 'lib'
   s.add_development_dependency('rails', '>= 3.0.0')
+  s.add_development_dependency('fakeweb')
 end

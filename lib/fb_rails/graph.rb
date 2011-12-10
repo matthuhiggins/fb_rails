@@ -31,7 +31,11 @@ module FbRails
 
         def json_request(http_verb, path, *arguments)
           response = request(http_verb, path, *arguments)
-          ActiveSupport::JSON.decode(response.body)
+          begin
+            ActiveSupport::JSON.decode(response.body)
+          rescue => e
+            raise ResponseError.new(e.message)
+          end
         end
 
         def http
