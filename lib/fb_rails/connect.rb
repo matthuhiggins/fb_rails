@@ -6,17 +6,14 @@ module FbRails
       end
     end
 
-    extend ActiveSupport::Memoizable
-
     attr_reader :cookies
     def initialize(cookies)
       @cookies = cookies
     end
 
     def cookie
-      FbRails::Cookie.decode(cookies[self.class.cookie_name], FbRails::Config.secret)
+      @cookie ||= FbRails::Cookie.decode(cookies[self.class.cookie_name], FbRails::Config.secret)
     end
-    memoize :cookie
 
     def connected?
       cookie.present?
@@ -32,12 +29,13 @@ module FbRails
 
     def user
       if connected?
-        record = FbRails::Config.user_class.find_or_initialize_by_fb_uid(uid)
-        record.access_token = access_token
-        record
+        @user ||= begin
+          record = FbRails::Config.user_class.find_or_initialize_by_fb_uid(uid)
+          record.access_token = access_token
+          record
+        end
       end
     end
-    memoize :user
   end
 end
   
